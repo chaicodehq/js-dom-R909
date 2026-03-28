@@ -70,25 +70,87 @@
  *   // => ["red", "blue"]
  */
 export function addColors(element, ...colors) {
-  // Your code here
+if (element === null || element === undefined) {
+  return -1;
+} else {
+  let count = 0;
+  for (let i = 0; i < colors.length; i++) {
+    if (!element.classList.contains(colors[i])) {
+      element.classList.add(colors[i]);
+      count++;
+    }
+  }
+  return count;
+}
+
 }
 
 export function removeColors(element, ...colors) {
-  // Your code here
+if (element === null || element === undefined) {
+  return -1;
+} else {
+   let count = 0;
+  for (let i = 0; i < colors.length; i++) {
+    if (element.classList.contains(colors[i])) {
+      element.classList.remove(colors[i]);
+      count++;
+    }
+  }
+  return count;
+}
 }
 
 export function togglePattern(element, pattern) {
-  // Your code here
+if (element === null || element === undefined) {
+  return null;
+} else {
+  if (element.classList.contains(`pattern-${pattern}`)) {
+    element.classList.remove(`pattern-${pattern}`);
+    return false;
+  } else {
+    element.classList.add(`pattern-${pattern}`);
+    return true;
+  }
+}
 }
 
 export function hasDesign(element, designName) {
-  // Your code here
+if (element === null || element === undefined) {
+  return false;
+} else {
+  if(element.classList.contains(`design-${designName}`)) return true; 
+  else return false;
+
+}
 }
 
 export function replaceDesign(element, oldDesign, newDesign) {
-  // Your code here
+if (element === null || element === undefined) {
+  return false;
+} else {
+  if(element.classList.contains(`design-${oldDesign}`)) {
+    element.classList.remove(`design-${oldDesign}`);
+    element.classList.add(`design-${newDesign}`);
+    return true;
+  } else {
+    element.classList.add(`design-${newDesign}`);
+    return false;
+  }
 }
 
+}
+
+
 export function getActiveColors(element) {
-  // Your code here
+if (element === null || element === undefined) {
+  return [];
+} else {
+  let colors = [];
+  for (let i = 0; i < element.classList.length; i++) {
+    if (element.classList[i].startsWith("color-")) {
+      colors.push(element.classList[i].slice(6));
+    }
+  }
+  return colors;
+}
 }

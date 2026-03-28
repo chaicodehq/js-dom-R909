@@ -57,18 +57,105 @@
  *   manager.getCount(); // => 3 (2 Diya + 1 Phool)
  *   manager.removeItem("Phool"); // => true
  */
-export function setupAddButton(button, thaliElement, itemName) {
-  // Your code here
+export function setupAddButton(button, thaliElement, itemName) { 
+if(button && thaliElement && itemName){
+    function addElement(){
+        const li = document.createElement("li");
+        li.textContent = itemName;
+        thaliElement.appendChild(li);
+    }
+    button.addEventListener("click",addElement)
+    return function cleanup(){
+      button.removeEventListener("click",addElement)
+    }
+}else return null;
 }
 
 export function setupRemoveButton(button, thaliElement) {
-  // Your code here
+if(button && thaliElement){
+ function remoeLastElement(){
+     if(thaliElement.lastElementChild){
+      thaliElement.removeChild(thaliElement.lastElementChild);
+     }
+    }
+    button.addEventListener("click",remoeLastElement)
+    return function cleanup(){
+      button.removeEventListener("click",remoeLastElement)
+    }
+}else return null;
+
 }
 
-export function setupToggleItem(button, thaliElement, itemName) {
-  // Your code here
+export function setupToggleItem(button, thaliElement, itemName, document) {
+
+  if (!button || !thaliElement || !itemName) return null;
+   function toggleItem() {
+
+    const items = thaliElement.querySelectorAll("li");
+    let existingItem = null;
+
+    for (const item of items) {
+      if (item.textContent === itemName) {
+        existingItem = item;
+        break;
+      }
+    }
+
+    if (existingItem) {
+      existingItem.remove();
+    } else {
+      const li = global.document.createElement("li");
+      li.textContent = itemName;
+      thaliElement.appendChild(li);
+    }
+  }
+
+  button.addEventListener("click", toggleItem);
+
+  return function cleanup() {
+    button.removeEventListener("click", toggleItem);
+  };
+
 }
 
 export function createThaliManager(thaliElement, counterElement) {
-  // Your code here
-}
+
+  if (!thaliElement || !counterElement) return null;
+
+  function addItem(name) {
+    const li = document.createElement("li");
+    li.textContent = name;
+    thaliElement.appendChild(li);
+    counterElement.textContent = thaliElement.children.length;
+    return li;
+  }
+
+  function removeItem(name) {
+    const items = thaliElement.querySelectorAll("li");
+    for (const item of items) {
+      if (item.textContent === name) {
+        item.remove();
+        counterElement.textContent = thaliElement.children.length;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getCount() {
+    return thaliElement.children.length;
+  }
+
+  function clear() {
+    thaliElement.innerHTML = "";
+    counterElement.textContent = 0;
+  }
+
+  return {
+    addItem,
+    removeItem,
+    getCount,
+    clear 
+  }
+  }
+ 

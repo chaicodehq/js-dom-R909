@@ -72,21 +72,76 @@
  *   // => 2 (last frame applied: opacity is now "1")
  */
 export function applyBaseStyle(element, color, size) {
-  // Your code here
+  if (element === null || element === undefined) {
+    return null;
+  } else {
+    element.style.backgroundColor = color;
+    element.style.width = size + "px";
+    element.style.height = size + "px";
+    element.style.borderRadius = "50%";
+    return element;
+  }
 }
 
 export function setPatternStyle(element, styles) {
-  // Your code here
+  if(typeof styles!=="object" || styles===null) return 0;
+  if (element === null || element === undefined) {
+    return -1;
+  } else {
+    element.style.border = "2px solid brown";
+    element.style.opacity = 0.8;
+    element.style.transform = "rotate(45deg)";
+    let count = 0;
+  for (const key in styles) {
+    element.style[key] = styles[key];
+    count++;
+  }
+
+  return count;
+  }
 }
 
 export function getComputedStyles(element, properties) {
-  // Your code here
+//   Takes an array of style property names
+//  *        e.g., ["backgroundColor", "width", "opacity"]
+//  *      - Returns object with those properties and their current values
+//  *        from element.style
+//  *        e.g., { backgroundColor: "brown", width: "100px", opacity: "0.8" }
+//  *      - Agar element null/undefined, return null
+//  *      - Agar properties not array, return null
+if (element === null || element === undefined || !Array.isArray(properties)) {
+    return null;
+  } else {
+    let result = {};
+    for (let i = 0; i < properties.length; i++) {
+      result[properties[i]] = element.style[properties[i]];
+    }
+    return result;
+  }
 }
 
 export function toggleVisibility(element) {
-  // Your code here
+  if (element === null || element === undefined) {
+    return null;
+  } else {
+    if (element.style.display === "none") {
+      element.style.display = "";
+    } else {
+      element.style.display = "none";
+    }
+    return element.style.display;
+  }
 }
 
 export function animateElement(element, frames) {
-  // Your code here
+  if (element === null || element === undefined || !Array.isArray(frames) || frames.length==0) {
+    return -1;
+  } else {
+    const lastFrame = frames[frames.length - 1];
+    for (const key in lastFrame) {
+      element.style[key] = lastFrame[key];
+    }
+    return frames.length;
+  }
+  
 }
